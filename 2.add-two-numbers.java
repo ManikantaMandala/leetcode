@@ -10,50 +10,39 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-          if(l1==null || l2==null) return null;//checks whether l1,l2 null or not
-          ListNode p1=l1,p2=l2;//pointing two pointers at two lists
-          int carry=0;//carry
-          ListNode add=new ListNode();//add list
-          ListNode ans=add;//pointing the add list
-          while(p1.next!=null && p2.next!=null){//Do addition util either of the lists are null
-               add.val=p1.val+p2.val+carry;//adding
-               handleCarry(add);
-               carry=(isGreaterThan10(add.val))?1:0;
-               //changing to next node
-               p1=p1.next;
-               p2=p2.next;
-               add.next=new ListNode();
-               add=add.next;
-          }
-          if(p1.next!=null && p2.next==null){//if p2.next==null
-               while(p1.next!=null){
-                    add.val=p1.val+carry;
-                    handleCarry(add);
-                    carry=(isGreaterThan10(add.val))?1:0;
-               }
-          }
-          else if(p2.next!=null && p1.next==null){// if p1.next==null
-               while(p2.next!=null){
-                    add.val=p2.val+carry;
-                    handleCarry(add);
-                    carry=(isGreaterThan10(add.val))?1:0;
-               }
-          }
-          else{//if p1.size == p2.size
-               add.val= p1.val+p2.val+carry;
-               if(add.val>10){
-                    add.val=p1.val%10;
-                    add.next=new ListNode(1,null);
-               }
-          }
-          return ans;
+         return h(l1,l2,0);
     }
-    public boolean isGreaterThan10(int val){
-         return val>10;
-    }
-    public void handleCarry(ListNode p){
-         if(isGreaterThan10(p.val)){
-              p.val=p.val%10;
+    public ListNode h(ListNode l1,ListNode l2, int carry){
+         //base case
+         if(l1==null && l2==null){
+              if(carry==1) return new ListNode(1);
+              else return null;
          }
+
+         //adding the values
+         int sum = carry;
+         sum = (l1!=null)?sum+l1.val:sum;
+         sum = (l2!=null)?sum+l2.val:sum;
+
+         //handling carry
+         carry = sum/10;
+         sum = sum%10;
+
+         //making new node
+         ListNode newNode= new ListNode(sum);
+
+         //Calling the recursive call
+         if(l1 == null){
+              newNode.next = h(l1,l2.next,carry);
+         }
+         else if(l2 == null){
+              newNode.next= h(l1.next,l2,carry);
+         }
+         else{
+              newNode.next(l1.next,l2.next,carry);
+         }
+
+         //returning
+         return newNode;
     }
 }
