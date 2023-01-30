@@ -7,11 +7,17 @@
 // @lc code=start
 class Solution {
     public int mySqrt(int x) {
-        int output = 0;
-        for(int i = 1; i*i <= x; i++)
-            output=i;
-        return output;
+        int left=0,right = 46340,mid=0;
+        while(left<=right){
+            mid = left+ ((right-left)/2);
+            if(mid* mid == x) return mid;
+            else if(mid*mid>x) right = mid-1;
+            else left = mid+1;
+        }
+        return right;
     }
 }
+// I think the time complexity is O(1)=O(log(46340))
+// but others say that the time complexity is O(logN)
 // @lc code=end
 
