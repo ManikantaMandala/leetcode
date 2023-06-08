@@ -25,6 +25,7 @@ class Solution{
         return helper(nums,0,0);
     }
     public static int helper(int[] nums, int i, int j){
+        int size=nums.length;
         for(;j<size;j++){
             if(nums[i]!=nums[j]){
                 i++;
